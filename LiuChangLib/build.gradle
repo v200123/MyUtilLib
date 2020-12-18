@@ -1,0 +1,68 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.lastcoffee.MyUtils'
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "29.0.3"
+
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+//task CopyAndReName(group: 'Sign', description: "用于签名加固后的文件的") {
+//    def command = "jarsigner -verbose -keystore JzzChinaKeyStore.keystore -signedjar ./baojian-signed.apk ./baojian_nosign.apk TreasureShip"
+//
+//
+//    exec {
+//        workingDir "../app"
+//        // 查看360加固签名信息
+//        executable = 'powershell'
+//         command
+//        println 'packers===show 360 sign'
+//    }
+//
+////    println commandLine 'cmd'  command .execute().text
+//
+//
+//}
+
+
+
+
+
+
