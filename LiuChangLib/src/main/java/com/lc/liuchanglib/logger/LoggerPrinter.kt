@@ -52,7 +52,7 @@ class LoggerPrinter  : Printer {
         return this
     }
 
-    override fun d(message: String, vararg args: Any?) {
+    override fun d(message: String?, vararg args: Any?) {
         log(DEBUG, null, message, args)
     }
 
@@ -60,27 +60,27 @@ class LoggerPrinter  : Printer {
         log(DEBUG, null, `object`.toString())
     }
 
-    override fun e(message: String, vararg args: Any?) {
-        e(null, message, *args)
+    override fun e(message: String?, vararg args: Any?) {
+        log(ERROR, null, message, args)
     }
 
-    override fun e(throwable: Throwable?, message: String, vararg args: Any?) {
+    override fun e(throwable: Throwable?, message: String?, vararg args: Any?) {
         log(ERROR, throwable, message, args)
     }
 
-    override fun w(message: String, vararg args: Any?) {
+    override fun w(message: String?, vararg args: Any?) {
         log(WARN, null, message, args)
     }
 
-    override fun i(message: String, vararg args: Any?) {
+    override fun i(message: String?, vararg args: Any?) {
         log(INFO, null, message, args)
     }
 
-    override fun v(message: String, vararg args: Any?) {
+    override fun v(message: String?, vararg args: Any?) {
         log(VERBOSE, null, message, args)
     }
 
-    override fun wtf(message: String, vararg args: Any?) {
+    override fun wtf(message: String?, vararg args: Any?) {
         log(ASSERT, null, message, args)
     }
 
@@ -166,7 +166,7 @@ class LoggerPrinter  : Printer {
     @Synchronized
     private fun log(priority: Int,
                     throwable: Throwable?,
-                    msg: String,
+                    msg: String?,
                     vararg args: Any) {
         checkNotNull(msg)
         val tag = getTag()

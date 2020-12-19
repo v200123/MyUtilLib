@@ -57,7 +57,7 @@ class SuperLogger() {
     }
 
     fun e(message: String, vararg args: Any?) {
-        printer.e(null, message, *args)
+        printer.e(message, *args)
     }
 
     fun e(throwable: Throwable?, message: String, vararg args: Any?) {

@@ -1,6 +1,5 @@
 package com.lc.liuchanglib.logger
 import com.lc.liuchanglib.logger.loggerInterface.SuperFormatStrategy
-import com.lc.liuchanglib.logger.loggerInterface.SuperLogStrategy
 import java.util.logging.Logger
 import kotlin.math.min
 
@@ -9,14 +8,16 @@ import kotlin.math.min
  *
  * @PackAge：com.lc.liuchanglib.logger
  * @创建人：admin
- * @Desc：格式化的一 个实现类
+ * @Desc：格式化的一个实现类
  * @Time: 十二月
  *
  **/
-class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperFormatStrategy {
+class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperFormatStrategy() {
 
     /**
-     * Android's max limit for a log entry is ~4076 bytes,
+     * 安卓对每个日志的限制是4076个字符
+     * 所以，4000设为最大单次可以输出的字符
+     *
      * so 4000 bytes is used as chunk size since default charset
      * is UTF-8
      */
@@ -30,30 +31,15 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
     /**
      * Drawing toolbox
      */
-    private val TOP_LEFT_CORNER = '┌'
-    private val BOTTOM_LEFT_CORNER = '└'
-    private val MIDDLE_CORNER = '├'
-    private val HORIZONTAL_LINE = '│'
-    private val DOUBLE_DIVIDER = "────────────────────────────────────────────────────────"
-    private val SINGLE_DIVIDER = "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"
-    private val TOP_BORDER = TOP_LEFT_CORNER.toString() + DOUBLE_DIVIDER + DOUBLE_DIVIDER
-    private val BOTTOM_BORDER = BOTTOM_LEFT_CORNER.toString() + DOUBLE_DIVIDER + DOUBLE_DIVIDER
-    private val MIDDLE_BORDER = MIDDLE_CORNER.toString() + SINGLE_DIVIDER + SINGLE_DIVIDER
 
-    private var methodCount = 0
-    private var methodOffset = 0
-    private var showThreadInfo = false
-    private var logStrategy: SuperLogStrategy? = null
-    
-    private var tag: String? = null
+    private var mTag: String? = null
 
     init {
-
-        methodCount = builder.methodCount
-        methodOffset = builder.methodOffset
-        showThreadInfo = builder.showThreadInfo
-        logStrategy = builder.logStrategy
-        tag = builder.tag
+        mMethodCount = builder.methodCount
+        mMthodOffset = builder.methodOffset
+        mShowThreadInfo = builder.showThreadInfo
+        mLogStrategy = builder.logStrategy
+        mTag = builder.tag
     }
 
     fun newBuilder(): Builder {
@@ -62,24 +48,24 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
 
     override fun log(priority: Int, tag: String?, message: String?) {
 
-        val tag = formatTag(tag?:"aaa")
-        logTopBorder(priority, tag)
-        logHeaderContent(priority, tag, methodCount)
+        mTag = formatTag(tag?:"aaa")
+        logTopBorder(priority, mTag)
+        logHeaderContent(priority, mTag, mMethodCount)
 
         //get bytes of message with system's default charset (which is UTF-8 for Android)
         val bytes = message?.toByteArray()?: byteArrayOf()
         val length = bytes.size
         if (length <= CHUNK_SIZE) {
-            if (methodCount > 0) {
-                logDivider(priority, tag)
+            if (mMethodCount > 0) {
+                logDivider(priority, mTag)
             }
 
-            logContent(priority, tag, message?:"没有任何信息")
-            logBottomBorder(priority, tag)
+            logContent(priority, mTag, message?:"没有任何信息")
+            logBottomBorder(priority, mTag)
             return
         }
-        if (methodCount > 0) {
-            logDivider(priority, tag)
+        if (mMethodCount > 0) {
+            logDivider(priority, mTag)
         }
         var i = 0
         while (i < length) {
@@ -88,7 +74,7 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
             logContent(priority, tag, String(bytes, i, count))
             i += CHUNK_SIZE
         }
-        logBottomBorder(priority, tag)
+        logBottomBorder(priority, mTag)
     }
 
     private fun logTopBorder(logType: Int, tag: String?) {
@@ -96,18 +82,18 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
     }
 
     private fun logHeaderContent(logType: Int, tag: String?, methodCount: Int) {
-        var methodCount = methodCount
+        mMethodCount = methodCount
         val trace = Thread.currentThread().stackTrace
-        if (showThreadInfo) {
+        if (mShowThreadInfo) {
             logChunk(logType, tag, HORIZONTAL_LINE.toString() + " Thread: " + Thread.currentThread().name)
             logDivider(logType, tag)
         }
         var level = ""
-        val stackOffset = getStackOffset(trace) + methodOffset
+        val stackOffset = getStackOffset(trace) + mMethodCount
 
         //corresponding method count with the current stack may exceeds the stack trace. Trims the count
-        if (methodCount + stackOffset > trace.size) {
-            methodCount = trace.size - stackOffset - 1
+        if (mMethodCount + stackOffset > trace.size) {
+            mMethodCount = trace.size - stackOffset - 1
         }
         for (i in methodCount downTo 1) {
             val stackIndex = i + stackOffset
@@ -150,7 +136,7 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
 
     private fun logChunk(priority: Int, tag: String?, chunk: String) {
 
-        logStrategy?.log(priority, tag, chunk)
+        mLogStrategy?.log(priority, tag, chunk)
     }
 
     private fun getSimpleClassName(name: String): String? {
@@ -181,9 +167,9 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
 
 
     private fun formatTag(tag: String): String? {
-        return if (this.tag == tag) {
-            this.tag + "-" + tag
-        } else this.tag
+        return if (this.mTag == tag) {
+            this.mTag + "-" + tag
+        } else this.mTag
     }
 
     class Builder  constructor() {
@@ -192,7 +178,7 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
         var showThreadInfo = true
 
 
-        var logStrategy: SuperLogStrategy? = null
+        var logStrategy: SuperFormatStrategy? = null
 
         var tag = "PRETTY_LOGGER"
         fun methodCount(`val`: Int): Builder {
@@ -210,7 +196,7 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
             return this
         }
 
-        fun logStrategy(`val`: SuperLogStrategy?): Builder {
+        fun logStrategy(`val`: SuperFormatStrategy?): Builder {
             logStrategy = `val`
             return this
         }

@@ -11,11 +11,8 @@ import com.lc.liuchanglib.logger.loggerInterface.SuperFormatStrategy
  * @Time: 十二月
  *
  **/
-class SuperAndroidLogAdapter(formatStrategy:SuperFormatStrategy =  SuperPrettyFormatStrategy.Builder().build()) : LogAdapter {
-    private var mFormatStrategy: SuperFormatStrategy? = null
-    init {
-        mFormatStrategy = checkNotNull(formatStrategy);
-    }
+class SuperAndroidLogAdapter() :SuperBaseLogAdapter() ,LogAdapter {
+
     override fun isLoggable(priority: Int, tag: String?): Boolean {
        return true
     }

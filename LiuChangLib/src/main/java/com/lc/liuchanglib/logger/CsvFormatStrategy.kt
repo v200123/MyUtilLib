@@ -9,7 +9,6 @@ import com.lc.liuchanglib.logger.SuperLogger.Companion.INFO
 import com.lc.liuchanglib.logger.SuperLogger.Companion.VERBOSE
 import com.lc.liuchanglib.logger.SuperLogger.Companion.WARN
 import com.lc.liuchanglib.logger.loggerInterface.SuperFormatStrategy
-import com.lc.liuchanglib.logger.loggerInterface.SuperLogStrategy
 
 import java.io.File
 import java.text.SimpleDateFormat
@@ -24,7 +23,7 @@ import java.util.*
  * @Time: 十二月
  *
  **/
-class CsvFormatStrategy(builder: Builder) : SuperFormatStrategy {
+class CsvFormatStrategy(builder: Builder) : SuperFormatStrategy() {
 
     private val NEW_LINE = System.getProperty("line.separator")
     private val NEW_LINE_REPLACEMENT = " <br> "
@@ -32,7 +31,7 @@ class CsvFormatStrategy(builder: Builder) : SuperFormatStrategy {
 
     private var date: Date ?= null
     private var dateFormat: SimpleDateFormat ?= null
-    private var logStrategy: SuperLogStrategy? = null
+    private var logStrategy: SuperFormatStrategy? = null
 
 
     private var tag: String? = null
@@ -47,8 +46,8 @@ class CsvFormatStrategy(builder: Builder) : SuperFormatStrategy {
         return Builder()
     }
 
-    override fun log(priority: Int, onceOnlyTag: String?, message: String) {
-        var message = message
+    override fun log(priority: Int, onceOnlyTag: String?, message: String?) {
+        var message = message?:"信息为空"
 
         val tag = formatTag(onceOnlyTag?:"aaa")
         date!!.time = System.currentTimeMillis()
@@ -121,7 +120,7 @@ class CsvFormatStrategy(builder: Builder) : SuperFormatStrategy {
     class Builder() {
         var mDate: Date? = null
         var mDateFormat: SimpleDateFormat? = null
-        var mLogStrategy: SuperLogStrategy? = null
+        var mLogStrategy: SuperFormatStrategy? = null
         var mTag = "PRETTY_LOGGER"
         fun date(date: Date?): Builder {
             mDate = date
@@ -133,7 +132,7 @@ class CsvFormatStrategy(builder: Builder) : SuperFormatStrategy {
             return this
         }
 
-        fun logStrategy(logStrategy: SuperLogStrategy?): Builder {
+        fun logStrategy(logStrategy: SuperFormatStrategy?): Builder {
             mLogStrategy = logStrategy
             return this
         }
