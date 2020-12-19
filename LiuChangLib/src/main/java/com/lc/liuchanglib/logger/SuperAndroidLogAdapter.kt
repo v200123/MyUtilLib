@@ -18,6 +18,6 @@ class SuperAndroidLogAdapter() :SuperBaseLogAdapter() ,LogAdapter {
     }
 
     override fun log(priority: Int, tag: String?, message: String?) {
-        mFormatStrategy!!.log(priority,tag,message)
+        mFormatStrategy.log(priority,tag,message)
     }
 }

@@ -23,7 +23,7 @@ abstract class SuperFormatStrategy {
     var mMethodCount = 0
     var mMthodOffset = 0
     var mShowThreadInfo = false
-    var mLogStrategy: SuperFormatStrategy? = null
+    var mLogStrategy: SuperLogStrategy? = null
     var mTag = "SuperLogger"
     abstract fun log(priority: Int, tag: String?, message: String?)
 }

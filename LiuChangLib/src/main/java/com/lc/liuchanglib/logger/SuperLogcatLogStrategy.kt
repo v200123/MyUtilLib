@@ -2,6 +2,7 @@ package com.lc.liuchanglib.logger
 
 import android.util.Log
 import com.lc.liuchanglib.logger.loggerInterface.SuperFormatStrategy
+import com.lc.liuchanglib.logger.loggerInterface.SuperLogStrategy
 
 
 /**
@@ -12,14 +13,14 @@ import com.lc.liuchanglib.logger.loggerInterface.SuperFormatStrategy
  * @Time: 十二月
  *
  **/
-class SuperLogcatLogStrategy : SuperFormatStrategy() {
+class SuperLogcatLogStrategy : SuperLogStrategy {
     private val DEFAULT_TAG = "NO_TAG"
 
     override fun log(priority: Int, tag: String?, message: String?) {
-        var tag = tag
-        if (tag == null) {
-            tag = DEFAULT_TAG
+        var mTag = tag
+        if (mTag == null) {
+            mTag = DEFAULT_TAG
         }
-        Log.println(priority, tag, message?:"该次信息为空")
+        Log.println(priority, mTag, message?:"该次信息为空")
     }
 }
