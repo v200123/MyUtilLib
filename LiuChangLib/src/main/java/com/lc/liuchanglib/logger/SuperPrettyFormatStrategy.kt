@@ -32,7 +32,7 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
      * Drawing toolbox
      */
 
-    private var mTag: String? = null
+
 
     init {
         mMethodCount = builder.methodCount
@@ -166,7 +166,7 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
     }
 
 
-    private fun formatTag(tag: String): String? {
+    private fun formatTag(tag: String): String {
         return if (this.mTag == tag) {
             this.mTag + "-" + tag
         } else this.mTag
