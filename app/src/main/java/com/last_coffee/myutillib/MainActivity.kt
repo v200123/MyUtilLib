@@ -13,9 +13,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        SuperLogger().d("hahahahah")
+        SuperLogger.d("hahahahah")
         GlobalScope.launch(Dispatchers.IO) {
-            SuperLogger().d("当前我是在IO线程了")
+            SuperLogger.d("当前我是在IO线程了")
             //do what you want
         }
     }

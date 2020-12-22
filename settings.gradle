@@ -1,3 +1,4 @@
 include ':LiuChangLib'
 include ':app'
 rootProject.name = "MyUtilLib"
+include ':liubaselib'

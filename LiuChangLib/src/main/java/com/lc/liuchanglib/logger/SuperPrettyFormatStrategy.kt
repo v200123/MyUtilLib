@@ -1,5 +1,6 @@
 package com.lc.liuchanglib.logger
 import com.lc.liuchanglib.logger.loggerInterface.SuperFormatStrategy
+import com.lc.liuchanglib.logger.loggerInterface.SuperLogStrategy
 import java.util.logging.Logger
 import kotlin.math.min
 
@@ -178,7 +179,7 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
         var showThreadInfo = true
 
 
-        var logStrategy: SuperFormatStrategy? = null
+        var logStrategy: SuperLogStrategy? = null
 
         var tag = "PRETTY_LOGGER"
         fun methodCount(`val`: Int): Builder {
@@ -196,7 +197,7 @@ class SuperPrettyFormatStrategy private constructor(builder: Builder): SuperForm
             return this
         }
 
-        fun logStrategy(`val`: SuperFormatStrategy?): Builder {
+        fun logStrategy(`val`: SuperLogStrategy?): Builder {
             logStrategy = `val`
             return this
         }
