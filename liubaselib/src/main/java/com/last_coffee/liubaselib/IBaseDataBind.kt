@@ -1,6 +1,7 @@
 package com.last_coffee.liubaselib
 
 import android.view.LayoutInflater
+import android.view.View
 import androidx.viewbinding.ViewBinding
 
 /**
@@ -13,6 +14,6 @@ import androidx.viewbinding.ViewBinding
  **/
 interface IBaseDataBind {
 
-    fun<T:ViewBinding> initViewBinding(layoutInflater:LayoutInflater):T
+    fun initViewBinding(layoutInflater:LayoutInflater)
 
 }
