@@ -1,6 +1,7 @@
 package com.last_coffee.myutillib.myInterceptor
 
 import android.util.Log
+import com.tencent.mmkv.MMKV
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -19,15 +20,16 @@ class ReceivedCookiesInterceptor :Interceptor {
         {
             var s  = ""
             val values = originalResponse.headers.values("Set-Cookie")
-            values[0].split(";").forEach{
-                if(it.contains("XSRF_TOKEN"))
-                {
-                    s =  it.split("=")[1]
-                    return@forEach
+            if(values.isNotEmpty()) {
+                values[0].split(";").forEach {
+                    if (it.contains("XSRF-TOKEN")) {
+                        s = it.split("=")[1]
+                        return@forEach
+                    }
                 }
+                MMKV.defaultMMKV()!!.encode("Token", s)
+                Log.d("LiuChang", "当前请求有Header,需要获取Cookie：$s")
             }
-
-            Log.d("LiuChang", "当前请求有Header,需要获取Cookie：$s")
         }
         return originalResponse
     }

@@ -19,9 +19,9 @@ data class BaseRepose<T>(
     @Json(name = "completeMission")
     val mCompleteMission: Any?, // null
     @Json(name = "data")
-    val mData: T,
+    val mData: T?,
     @Json(name = "message")
-    val mMessage: String,
+    val mMessage: String?,
     @Json(name = "status")
     val mStatus: String // success
 )
