@@ -15,6 +15,7 @@ import com.last_coffee.liubaselib.BaseActivity
 import com.last_coffee.liubaselib.BaseViewModel
 import com.last_coffee.myutillib.bean.UserInfoBean
 import com.last_coffee.myutillib.databinding.ActivityMainBinding
+import com.lc.mybaselibrary.start
 import com.tencent.mmkv.MMKV
 
 
@@ -42,6 +43,10 @@ class MainActivity : BaseActivity<MainViewModel,ActivityMainBinding>() {
     }
 
     override fun initView() {
+        mDataBinding.btnLogin.setOnClickListener {
+            Toast.makeText(this@MainActivity,"请输入sessionID和Token",Toast.LENGTH_SHORT).show()
+            start<LoginActivity> {  }
+        }
 
         mDataBinding.text01.setOnClickListener{
             mAdapter.data.clear()
@@ -80,7 +85,6 @@ class MainActivity : BaseActivity<MainViewModel,ActivityMainBinding>() {
     private fun showInputMessage(){
         FullScreenDialog.show(object : OnBindView<FullScreenDialog>(R.layout.dialog_input_msg){
             override fun onBind(dialog: FullScreenDialog?, v: View?) {
-
                 val token = v!!.findViewById<EditText>(R.id.EditText)
                 val sessionId = v.findViewById<EditText>(R.id.EditText2)
                 val btnEnsure = v.findViewById<Button>(R.id.btn_ensure)
