@@ -28,8 +28,9 @@ class LoginActivity : BaseActivity<LoginViewModel,ActivityLoginBinding>() {
         mDataBinding.wvLogin.settings.apply {
             domStorageEnabled = false
             javaScriptEnabled = true
-            savePassword
-
+            javaScriptCanOpenWindowsAutomatically = true
+            domStorageEnabled = true
+            databaseEnabled = true
         }
         mDataBinding.wvLogin.apply {
 

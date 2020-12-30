@@ -4,8 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.last_coffee.liubaselib.BaseViewModel
 import com.last_coffee.myutillib.bean.UserInfoBean
+import com.last_coffee.myutillib.bean.UserTokenBean
+import com.last_coffee.myutillib.bean.getTokenAuthBean
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.delay
+import org.json.JSONObject
 
 /**
  *
@@ -23,24 +26,37 @@ class MainViewModel : BaseViewModel() {
     val mOtherMessage = MutableLiveData<String>()
     fun getCheckStatue() {
         val mSessionId = mmkv!!.decodeString("session_id")
-        val mToken = mmkv!!.decodeString("Token")
+        val mToken = mmkv!!.decodeString("XSRF-TOKEN")
+        val mGGSESSION = mmkv!!.decodeString("GGSESSION")
+        var mUserToken = mmkv!!.decodeString("UserToken")
+
         mOtherMessage.value = "获取用户信息"
         launchTask {
-
-            val userInfo = getUserInfo(mToken!!, mSessionId!!)
+            if(mToken == null)
+            {
+                //获取用户的XSRF_TOKEN
+                getUserInfo(null,mSessionId!!,null)
+                val userToken = getUserToken(mSessionId)
+                userToken.mData?.let {
+                    mUserToken = it.mToken
+                    mmkv.putString("UserToken", mUserToken)
+                }
+            }
+            val userInfo = getUserInfo(mToken!!, mSessionId!!,mGGSESSION!!)
             if(userInfo.mData!=null)
                 mUserInfoData.value = userInfo.mData!!
             mOtherMessage.value = "检查签到状态"
-
-            val checkInStatue =   getRetrofit().getCheckInStatue(cookie = "XSRF-TOKEN=$mToken; GGSESSION=ZGMzYjVlZWUtYzZjZS00Y2VhLWI0NzAtNTI0MTAyZjBhZWZk; sessionId=$mSessionId; _ga=GA1.2.742200929.1606896379; _gid=GA1.2.1786067544.1608878855; _gat=1")
+            val checkInStatue =   getRetrofit().getCheckInStatue(Authorization ="$mUserToken",cookie = "XSRF-TOKEN=$mToken; GGSESSION=$mGGSESSION; sessionId=$mSessionId")
             if (checkInStatue.mCode == 0) {
                 mCheckInStatueData.postValue(checkInStatue.mData!!)
-                if (!checkInStatue.mData.mCanCheckIn) {
+                if (checkInStatue.mData.mCanCheckIn) {
+                    mOtherMessage.value = "延迟3秒后开始签到"
                     delay(3000)
-                    Log.d(TAG, "发起下一次请求：${System.currentTimeMillis()}")
                     val checkIn: BaseRepose<String> =
-                        getRetrofit().checkIn(cookie = "XSRF-TOKEN=${mmkv.decodeString("Token")}; GGSESSION=ZGMzYjVlZWUtYzZjZS00Y2VhLWI0NzAtNTI0MTAyZjBhZWZk; sessionId=$mSessionId; _ga=GA1.2.742200929.1606896379; _gid=GA1.2.1786067544.1608878855; _gat=1")
+                        getRetrofit().checkIn(Authorization ="$mUserToken",cookie = "XSRF-TOKEN=$mToken; GGSESSION=$mGGSESSION; sessionId=$mSessionId")
                     mCheckInData.value = if (checkIn.mMessage == null) "签到成功" else "今天已经签到"
+                }else{
+                    mCheckInData.value = "今日已经签到"
                 }
 
 
@@ -55,9 +71,17 @@ class MainViewModel : BaseViewModel() {
 
 
 
-    private suspend fun getUserInfo(token:String,session:String)=
-        getRetrofit().getUserProfile(cookie = "XSRF-TOKEN=${token}/*; GGSESSION=ZGMzYjVlZWUtYzZjZS00Y2VhLWI0NzAtNTI0MTAyZjBhZWZk;*/ sessionId=${session}; _ga=GA1.2.742200929.1606896379; _gid=GA1.2.1786067544.1608878855; _gat=1")
+    private suspend fun getUserInfo(token:String?,session:String,mGGSESSION:String?)=
+            if(token==null)
+            {
+                getRetrofit().getUserProfile(cookie =  "sessionId=${session}")
+            }else
+        getRetrofit().getUserProfile(cookie = "XSRF-TOKEN=${token}; GGSESSION=$mGGSESSION;sessionId=${session}; _ga=GA1.2.742200929.1606896379; _gid=GA1.2.1786067544.1608878855; _gat=1")
 
+    private suspend fun getUserToken(sessionId:String):BaseRepose<UserTokenBean>{
+        val tokenAuthBean = getTokenAuthBean(mSessionId = sessionId, "v2")
+      return  getRetrofit().getUserToken(token = tokenAuthBean)
 
+    }
 
 }

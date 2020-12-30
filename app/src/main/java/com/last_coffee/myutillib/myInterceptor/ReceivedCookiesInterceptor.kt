@@ -21,14 +21,19 @@ class ReceivedCookiesInterceptor :Interceptor {
             var s  = ""
             val values = originalResponse.headers.values("Set-Cookie")
             if(values.isNotEmpty()) {
-                values[0].split(";").forEach {
-                    if (it.contains("XSRF-TOKEN")) {
-                        s = it.split("=")[1]
-                        return@forEach
+                values.forEach { cookieMsg ->
+                    cookieMsg.split(";").forEach {
+                        if (it.contains("XSRF-TOKEN")||it.contains("GGSESSION")) {
+                            s = it.split("=")[1]
+                            MMKV.defaultMMKV()!!.encode(it.split("=")[0], s)
+                            Log.d("LiuChang", "当前请求有Header,需要获取Cookie,${it.split("=")[0]}：$s")
+                            return@forEach
+                        }
                     }
+
                 }
-                MMKV.defaultMMKV()!!.encode("Token", s)
-                Log.d("LiuChang", "当前请求有Header,需要获取Cookie：$s")
+
+
             }
         }
         return originalResponse

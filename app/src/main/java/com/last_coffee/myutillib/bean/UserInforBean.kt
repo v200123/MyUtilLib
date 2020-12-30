@@ -12,40 +12,41 @@ import com.squareup.moshi.Json
  * @Time: 十二月
  *
  **/
+
 @JsonClass(generateAdapter = true)
 data class UserInfoBean(
     @Json(name = "avatar")
-    val mAvatar: String, // https://fs-uc-nearme-com-cn.oss-cn-hangzhou.aliyuncs.com/967/938/030/30839769.jpg
+    val mAvatar: String? = "",
     @Json(name = "birthday")
-    val mBirthday: String,
+    val mBirthday: Any? = Any(),
     @Json(name = "countryCode")
-    val mCountryCode: Any?, // null
+    val mCountryCode: Any? = Any(),
     @Json(name = "currentDevice")
-    val mCurrentDevice: Any?, // null
+    val mCurrentDevice: Any? = Any(),
     @Json(name = "editorGroupState")
-    val mEditorGroupState: List<Any>,
+    val mEditorGroupState: List<Any>? = listOf(),
     @Json(name = "followStatus")
-    val mFollowStatus: Int, // 0
+    val mFollowStatus: Int? = 0,
     @Json(name = "followersCount")
-    val mFollowersCount: Int, // 2
+    val mFollowersCount: Int? = 0,
     @Json(name = "followingsCount")
-    val mFollowingsCount: Int, // 4
+    val mFollowingsCount: Int? = 0,
     @Json(name = "growthValue")
-    val mGrowthValue: Int, // 67
+    val mGrowthValue: Int? = 0,
     @Json(name = "id")
-    val mId: String, // 30839769
+    val mId: String? = "",
     @Json(name = "intro")
-    val mIntro: String, // 我是美雀
+    val mIntro: String? = "",
     @Json(name = "isBlocked")
-    val mIsBlocked: Boolean, // false
+    val mIsBlocked: Boolean? = false,
     @Json(name = "medalCount")
-    val mMedalCount: Int, // 5
+    val mMedalCount: Int? = 0,
     @Json(name = "phoneModel")
-    val mPhoneModel: String, // PDRM00
+    val mPhoneModel: Any? = Any(),
     @Json(name = "postCount")
-    val mPostCount: Int, // 5
+    val mPostCount: Int? = 0,
     @Json(name = "sex")
-    val mSex: String, // M
+    val mSex: Any? = Any(),
     @Json(name = "username")
-    val mUsername: String // 用户1284430181
+    val mUsername: String? = ""
 )

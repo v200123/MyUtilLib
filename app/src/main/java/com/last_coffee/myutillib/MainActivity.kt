@@ -34,17 +34,20 @@ class MainActivity : BaseActivity<MainViewModel,ActivityMainBinding>() {
             mAdapter.addData("你好：${it.mUsername}")
         }
         mViewModel.mCheckInStatueData.observe(this){
-            mAdapter.addData("能否签到：${if(it.mCanCheckIn)"能" else "不能"}，连续签到天数:${it.mContinuousCheckInDays}")
+            mAdapter.addData("能否签到：${if(!it.mCanCheckIn)"不能" else "能"}，连续签到天数:${it.mContinuousCheckInDays}")
 
         }
         mViewModel.mCheckInData.observe(this){
+            mAdapter.addData(it)
+        }
+        mMyMViewModel.mOtherMessage.observe(this){
             mAdapter.addData(it)
         }
     }
 
     override fun initView() {
         mDataBinding.btnLogin.setOnClickListener {
-            Toast.makeText(this@MainActivity,"请输入sessionID和Token",Toast.LENGTH_SHORT).show()
+
             start<LoginActivity> {  }
         }
 
@@ -71,7 +74,7 @@ class MainActivity : BaseActivity<MainViewModel,ActivityMainBinding>() {
         mViewModel = mMyMViewModel
         if(!mmkv!!.contains("Token"))
         {
-            showInputMessage()
+//            showInputMessage()
         }
 
     }
@@ -94,7 +97,7 @@ class MainActivity : BaseActivity<MainViewModel,ActivityMainBinding>() {
                     {
                         Toast.makeText(this@MainActivity,"请输入sessionID和Token",Toast.LENGTH_SHORT).show()
                     }else{
-                        mmkv!!.putString("Token",token.text.toString())
+                        mmkv!!.putString("XSRF-TOKEN",token.text.toString())
                         mmkv!!.putString("session_id",sessionId.text.toString())
                         dialog?.dismiss()
                     }
