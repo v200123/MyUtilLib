@@ -1,5 +1,6 @@
 package com.last_coffee.myutillib
 
+import com.last_coffee.myutillib.myInterceptor.HeaderInterceptor
 import com.last_coffee.myutillib.myInterceptor.ReceivedCookiesInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,6 +24,7 @@ fun getRetrofit():ApiServer{
 }
 
 fun getOkHttpClient() = OkHttpClient.Builder()
+        .addInterceptor(HeaderInterceptor())
         .addInterceptor(HttpLoggingInterceptor()
                 .apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
         .addInterceptor(ReceivedCookiesInterceptor()).build()

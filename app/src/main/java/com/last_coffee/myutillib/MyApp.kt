@@ -6,6 +6,7 @@ import android.util.Log
 import com.kongzue.dialogx.DialogX
 import com.lc.liuchanglib.logger.SuperAndroidLogAdapter
 import com.lc.liuchanglib.logger.SuperLogger
+import com.tencent.bugly.Bugly
 import com.tencent.mmkv.MMKV
 
 
@@ -22,6 +23,7 @@ class MyApp : Application() {
         super.attachBaseContext(base)
         SuperLogger().addLogAdapter(SuperAndroidLogAdapter())
         val initialize = MMKV.initialize(this)
+        Bugly.init(this, "60089fa7a3", BuildConfig.DEBUG);
         Log.i("LiuChang", "attachBaseContext: $initialize")
 
     }

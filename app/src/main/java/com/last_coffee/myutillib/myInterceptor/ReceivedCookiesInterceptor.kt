@@ -1,6 +1,8 @@
 package com.last_coffee.myutillib.myInterceptor
 
 import android.util.Log
+import com.last_coffee.myutillib.GGSESSION
+import com.last_coffee.myutillib.XSRF_TOKEN
 import com.tencent.mmkv.MMKV
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -18,12 +20,12 @@ class ReceivedCookiesInterceptor :Interceptor {
         val originalResponse = chain.proceed(chain.request())
         if(originalResponse.headers.size>0)
         {
-            var s  = ""
+            var s:String
             val values = originalResponse.headers.values("Set-Cookie")
             if(values.isNotEmpty()) {
                 values.forEach { cookieMsg ->
                     cookieMsg.split(";").forEach {
-                        if (it.contains("XSRF-TOKEN")||it.contains("GGSESSION")) {
+                        if (it.contains(XSRF_TOKEN)||it.contains(GGSESSION)) {
                             s = it.split("=")[1]
                             MMKV.defaultMMKV()!!.encode(it.split("=")[0], s)
                             Log.d("LiuChang", "当前请求有Header,需要获取Cookie,${it.split("=")[0]}：$s")

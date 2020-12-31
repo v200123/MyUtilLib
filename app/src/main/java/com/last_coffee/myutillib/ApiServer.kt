@@ -1,5 +1,8 @@
 package com.last_coffee.myutillib
 
+import com.last_coffee.myutillib.baseRequest.awardMissionRequest
+import com.last_coffee.myutillib.bean.FinishMissionBean
+import com.last_coffee.myutillib.bean.MissionList
 import com.last_coffee.myutillib.bean.UserInfoBean
 import com.last_coffee.myutillib.bean.UserTokenBean
 import com.last_coffee.myutillib.bean.getTokenAuthBean
@@ -43,5 +46,14 @@ interface ApiServer {
                                @Header("Host")host :String= "www.realmebbs.com",
                              @Body token: getTokenAuthBean):BaseRepose<UserTokenBean>
 
+    @GET("api/mission")
+    suspend fun getMissList(@Header("User-Agent")agent:String = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+                             @Header("Host")host :String= "www.realmebbs.com",@Header("Cookie")cookie:String
+                            ):MissionList
+
+    @POST("api/mission/award")
+    suspend fun awardMissionList(@Header("User-Agent")agent:String = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+                                 @Header("Host")host :String= "www.realmebbs.com",@Header("Cookie")cookie:String
+    ,@Body request: awardMissionRequest): FinishMissionBean
 
 }

@@ -15,6 +15,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_main_auto_check"
+        android:text="自动签到开关"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/text01"
+        app:layout_constraintTop_toTopOf="@+id/text01" />
     <Button
         android:id="@+id/text01"
         android:layout_width="wrap_content"

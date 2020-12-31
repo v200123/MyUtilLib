@@ -66,7 +66,8 @@ class MainActivity : BaseActivity<MainViewModel,ActivityMainBinding>() {
             adapter = mAdapter
         }
 
-
+        mDataBinding.cbMainAutoCheck.isChecked = mmkv!!.getBoolean(ISAUTOCHECKIN,false)
+        mDataBinding.cbMainAutoCheck.setOnCheckedChangeListener { buttonView, isChecked -> mmkv.putBoolean(ISAUTOCHECKIN,isChecked) }
 
     }
 
@@ -76,6 +77,8 @@ class MainActivity : BaseActivity<MainViewModel,ActivityMainBinding>() {
         {
 //            showInputMessage()
         }
+        if(mDataBinding.cbMainAutoCheck.isChecked)
+            mViewModel.getCheckStatue()
 
     }
 
