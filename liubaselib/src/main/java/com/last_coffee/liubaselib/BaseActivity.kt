@@ -1,16 +1,14 @@
 package com.last_coffee.liubaselib
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
-import com.last_coffee.liubaselib.databinding.ActivityMainBinding
+import com.last_coffee.liubaselib.httpUtils.ErrorState
+import com.last_coffee.liubaselib.httpUtils.LoadState
+import com.last_coffee.liubaselib.httpUtils.SuccessState
 import java.lang.reflect.ParameterizedType
-import kotlin.reflect.KClass
 
 
 /**
@@ -21,10 +19,11 @@ import kotlin.reflect.KClass
  * @Time: 十二月
  *
  **/
-abstract class BaseActivity<VM : BaseViewModel, T:ViewBinding>  : AppCompatActivity(),IBaseActivityView {
-     lateinit var mDataBinding:T
-
-    lateinit var mViewModel:VM
+abstract class BaseActivity<VM : BaseViewModel, T : ViewBinding> : AppCompatActivity(), IBaseActivityView {
+    lateinit var mDataBinding: T
+    @Volatile
+    private var mLoadingCount: Int = 0
+    lateinit var mViewModel: VM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val type = javaClass.genericSuperclass as ParameterizedType
@@ -36,16 +35,41 @@ abstract class BaseActivity<VM : BaseViewModel, T:ViewBinding>  : AppCompatActiv
         initData()
         startObserver()
         setContentView(mDataBinding.root)
-        mViewModel.mStateLiveData.observe(this){
-            when(it){
+        mViewModel.mStateLiveData.observe(this) {
+            when (it) {
+                is LoadState -> {
+                    mLoadingCount += 1
+                    if (it.type == 0) {
+                        if (mLoadingCount == 1) {
+                            showLoadingDialog(it.message)
+                        }
+                        if (getLoadingDialogText() != it.message) {
+                            showLoadingDialog(it.message)
+                        }
+                    }
+                }
+                is SuccessState -> {
+                    mLoadingCount -= 1
+                    if (mLoadingCount == 0) {
+                        hideLoadingDialog()
+                    }
+                }
                 is ErrorState -> {
+                    mLoadingCount -= 1
+                    if (mLoadingCount == 0) {
+                        hideLoadingDialog()
+                    }
                     Log.d("Liuchang", "ErrorState：${it.message}")
+                }
+                else -> {
+
                 }
             }
         }
     }
 
-
-
+    abstract fun getLoadingDialogText(): String
+    abstract fun showLoadingDialog(message: String)
+    abstract fun hideLoadingDialog()
     abstract fun startObserver()
 }

@@ -10,6 +10,6 @@ import android.content.Intent
  **/
 inline fun <reified T > Context.start(block: Intent.()->Unit = {}){
     val intent = Intent(this, T::class.java)
-    intent.block()
+   block( intent)
     startActivity(intent )
 }

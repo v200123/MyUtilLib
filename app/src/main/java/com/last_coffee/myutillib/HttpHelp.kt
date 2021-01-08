@@ -1,10 +1,9 @@
 package com.last_coffee.myutillib
 
+import com.last_coffee.liubaselib.httpUtils.initOkHttp
+import com.last_coffee.liubaselib.httpUtils.initRetrofit
 import com.last_coffee.myutillib.myInterceptor.HeaderInterceptor
 import com.last_coffee.myutillib.myInterceptor.ReceivedCookiesInterceptor
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
@@ -17,14 +16,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  **/
 
 fun getRetrofit():ApiServer{
-    return Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl("https://www.realmebbs.com")
-            .client(getOkHttpClient())
-            .build().create(ApiServer::class.java)
+    return initRetrofit { baseUrl("https://www.realmebbs.com")
+                addConverterFactory(MoshiConverterFactory.create())
+                        .client(initOkHttp {
+                            addInterceptor(ReceivedCookiesInterceptor())
+                            addInterceptor(HeaderInterceptor())
+                        })}.create(ApiServer::class.java)
 }
 
-fun getOkHttpClient() = OkHttpClient.Builder()
-        .addInterceptor(HeaderInterceptor())
-        .addInterceptor(HttpLoggingInterceptor()
-                .apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
-        .addInterceptor(ReceivedCookiesInterceptor()).build()
+

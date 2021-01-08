@@ -20,7 +20,7 @@ import org.json.JSONObject
  * @Time: 十二月
  *
  **/
-class MainViewModel : BaseViewModel() {
+class MainViewModel : MyBaseViewModel<BaseRepose<Any>>() {
     val mmkv = MMKV.defaultMMKV()
     val mCheckInStatueData = MutableLiveData<CheckInStatueBean>()
     val mUserInfoData = MutableLiveData<UserInfoBean>()
@@ -109,7 +109,7 @@ class MainViewModel : BaseViewModel() {
     }
 
 
-    private suspend fun getMissionList(token:String?,session:String,mGGSESSION:String?) = getRetrofit().getMissList(cookie = "XSRF-TOKEN=${token}; GGSESSION=$mGGSESSION;sessionId=${session}; _ga=GA1.2.742200929.1606896379; _gid=GA1.2.1786067544.1608878855; _gat=1")
+    private suspend fun getMissionList(token:String?,session:String,mGGSESSION:String?) = getRetrofit().getMissList(cookie = "XSRF-TOKEN=${token}; GGSESSION=$mGGSESSION;sessionId=${session}")
 
     private  fun finishMissionList(token:String?,session:String,mGGSESSION:String?,list:List<Int>){
         runBlocking {

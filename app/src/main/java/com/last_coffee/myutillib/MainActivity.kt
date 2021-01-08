@@ -11,15 +11,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.kongzue.dialogx.dialogs.FullScreenDialog
 import com.kongzue.dialogx.interfaces.OnBindView
-import com.last_coffee.liubaselib.BaseActivity
-import com.last_coffee.liubaselib.BaseViewModel
+import com.last_coffee.liubaselib.httpUtils.ErrorState
 import com.last_coffee.myutillib.bean.UserInfoBean
 import com.last_coffee.myutillib.databinding.ActivityMainBinding
 import com.lc.mybaselibrary.start
 import com.tencent.mmkv.MMKV
 
 
-class MainActivity : BaseActivity<MainViewModel,ActivityMainBinding>() {
+class MainActivity : MyBaseActivity<MainViewModel,ActivityMainBinding>() {
     private val mMyMViewModel by viewModels<MainViewModel>()
     private val mmkv = MMKV.defaultMMKV()
     private lateinit var mUserData:UserInfoBean
@@ -29,6 +28,12 @@ class MainActivity : BaseActivity<MainViewModel,ActivityMainBinding>() {
     }
 
     override fun startObserver() {
+        mViewModel.mStateLiveData.observe(this){
+                if(it is ErrorState)
+                {
+                    mAdapter.addData("${it.message}，错误代码：${it.errorCode}")
+                }
+        }
         mViewModel.mUserInfoData.observe(this){
             mUserData = it
             mAdapter.addData("你好：${it.mUsername}")

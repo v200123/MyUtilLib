@@ -1,21 +1,26 @@
 package com.last_coffee.liubaselib
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.last_coffee.liubaselib.httpUtils.ErrorState
+import com.last_coffee.liubaselib.httpUtils.LoadState
+import com.last_coffee.liubaselib.httpUtils.StateActionEvent
+import com.last_coffee.liubaselib.httpUtils.SuccessState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONException
+import java.lang.IllegalStateException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 typealias LaunchBlock = suspend CoroutineScope.() -> Unit
 typealias Cancel = (e: Exception) -> Unit
+
 /**
  *
  * @PackAge：com.last_coffee.liubaselib
@@ -24,19 +29,23 @@ typealias Cancel = (e: Exception) -> Unit
  * @Time: 十二月
  *
  **/
-open class BaseViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     val mStateLiveData = MutableLiveData<StateActionEvent>()
-    fun launchTask(cancel: Cancel? = { mStateLiveData.postValue(ErrorState("请求取消")) },
-                   block: LaunchBlock){
+    fun launchTask(type: Int = 0,message:String = "请稍后", cancel: Cancel? = { mStateLiveData.postValue(ErrorState("请求取消")) },
+                   block: LaunchBlock) {
         viewModelScope.launch {
             //ViewModel自带的viewModelScope.launch,会在页面销毁的时候自动取消请求,有效封装内存泄露
-            mStateLiveData.value = LoadState()
+            mStateLiveData.value = LoadState(type,message)
             runCatching {
-                block()
+                withContext(Dispatchers.Main)
+                { block() }
             }
                     .onSuccess {
-                        mStateLiveData.value = SuccessState
+                        withContext(Dispatchers.Main)
+                        {
+                                mStateLiveData.value = SuccessState
+                        }
                     }
                     .onFailure {
                         getApiException(it, cancel)
@@ -57,6 +66,9 @@ open class BaseViewModel : ViewModel() {
             }
             is ConnectException -> {
                 mStateLiveData.value = ErrorState("连接错误", -100)
+            }
+            is IllegalStateException -> {
+                mStateLiveData.value = ErrorState("非法状态", -100)
             }
 //            is HttpException -> {
 //                mStateLiveData.value = ErrorState("http code ${e.code()}", -100)

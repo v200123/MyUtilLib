@@ -13,7 +13,7 @@ import com.last_coffee.myutillib.databinding.ActivityLoginBinding
  * @Time: 十二月
  *
  **/
-class LoginActivity : BaseActivity<LoginViewModel,ActivityLoginBinding>() {
+class LoginActivity : MyBaseActivity<LoginViewModel,ActivityLoginBinding>() {
     private val mMyMViewModel by viewModels<LoginViewModel>()
 
     override fun initData() {
