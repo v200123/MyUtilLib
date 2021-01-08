@@ -1,4 +1,4 @@
-package com.last_coffee.liubaselib
+package com.last_coffee.liubaselib.base
 
 import android.os.Bundle
 import android.util.Log

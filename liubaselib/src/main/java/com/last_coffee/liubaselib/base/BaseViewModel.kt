@@ -1,4 +1,4 @@
-package com.last_coffee.liubaselib
+package com.last_coffee.liubaselib.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,7 +32,7 @@ typealias Cancel = (e: Exception) -> Unit
 abstract class BaseViewModel : ViewModel() {
 
     val mStateLiveData = MutableLiveData<StateActionEvent>()
-    fun launchTask(type: Int = 0,message:String = "请稍后", cancel: Cancel? = { mStateLiveData.postValue(ErrorState("请求取消")) },
+    fun launchTask(type: Int = 0, message:String = "请稍后", cancel: Cancel? = { mStateLiveData.postValue(ErrorState("请求取消")) },
                    block: LaunchBlock) {
         viewModelScope.launch {
             //ViewModel自带的viewModelScope.launch,会在页面销毁的时候自动取消请求,有效封装内存泄露

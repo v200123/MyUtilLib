@@ -1,8 +1,6 @@
 package com.last_coffee.myutillib
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.last_coffee.liubaselib.BaseViewModel
 import com.last_coffee.myutillib.baseRequest.awardMissionRequest
 import com.last_coffee.myutillib.bean.UserInfoBean
 import com.last_coffee.myutillib.bean.UserTokenBean
@@ -10,7 +8,6 @@ import com.last_coffee.myutillib.bean.getTokenAuthBean
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.json.JSONObject
 
 /**
  *

@@ -47,6 +47,8 @@ dependencies {
     implementation 'com.github.v200123.MyUtilLib:LiuChangLib:1.0.0-alph03'
     implementation 'com.kongzue.dialogx:DialogX:0.0.24'
     implementation project(path: ':liubaselib')
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
     testImplementation 'junit:junit:4.+'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.11.0")

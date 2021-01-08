@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -14,17 +15,20 @@ import com.kongzue.dialogx.interfaces.OnBindView
 import com.last_coffee.liubaselib.httpUtils.ErrorState
 import com.last_coffee.myutillib.bean.UserInfoBean
 import com.last_coffee.myutillib.databinding.ActivityMainBinding
+import com.last_coffee.myutillib.databinding.ActivityTestViewBinding
 import com.lc.mybaselibrary.start
 import com.tencent.mmkv.MMKV
 
 
-class MainActivity : MyBaseActivity<MainViewModel,ActivityMainBinding>() {
+class MainActivity : MyBaseActivity<MainViewModel,ActivityTestViewBinding>() {
     private val mMyMViewModel by viewModels<MainViewModel>()
     private val mmkv = MMKV.defaultMMKV()
     private lateinit var mUserData:UserInfoBean
     private val mAdapter by lazy { Adapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
     }
 
     override fun startObserver() {
@@ -51,28 +55,28 @@ class MainActivity : MyBaseActivity<MainViewModel,ActivityMainBinding>() {
     }
 
     override fun initView() {
-        mDataBinding.btnLogin.setOnClickListener {
-
-            start<LoginActivity> {  }
-        }
-
-        mDataBinding.text01.setOnClickListener{
-            mAdapter.data.clear()
-            mAdapter.notifyDataSetChanged()
-            mViewModel.getCheckStatue()
-        }
-        mDataBinding.btnClear.setOnClickListener {
-            mmkv!!.clearAll()
-            showInputMessage()
-        }
-
-        mDataBinding.rvShowMsg.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = mAdapter
-        }
-
-        mDataBinding.cbMainAutoCheck.isChecked = mmkv!!.getBoolean(ISAUTOCHECKIN,false)
-        mDataBinding.cbMainAutoCheck.setOnCheckedChangeListener { buttonView, isChecked -> mmkv.putBoolean(ISAUTOCHECKIN,isChecked) }
+//        mDataBinding.btnLogin.setOnClickListener {
+//
+//            start<LoginActivity> {  }
+//        }
+//
+//        mDataBinding.text01.setOnClickListener{
+//            mAdapter.data.clear()
+//            mAdapter.notifyDataSetChanged()
+//            mViewModel.getCheckStatue()
+//        }
+//        mDataBinding.btnClear.setOnClickListener {
+//            mmkv!!.clearAll()
+//            showInputMessage()
+//        }
+//
+//        mDataBinding.rvShowMsg.apply {
+//            layoutManager = LinearLayoutManager(this@MainActivity)
+//            adapter = mAdapter
+//        }
+//
+//        mDataBinding.cbMainAutoCheck.isChecked = mmkv!!.getBoolean(ISAUTOCHECKIN,false)
+//        mDataBinding.cbMainAutoCheck.setOnCheckedChangeListener { buttonView, isChecked -> mmkv.putBoolean(ISAUTOCHECKIN,isChecked) }
 
     }
 
@@ -82,8 +86,8 @@ class MainActivity : MyBaseActivity<MainViewModel,ActivityMainBinding>() {
         {
 //            showInputMessage()
         }
-        if(mDataBinding.cbMainAutoCheck.isChecked)
-            mViewModel.getCheckStatue()
+//        if(mDataBinding.cbMainAutoCheck.isChecked)
+//            mViewModel.getCheckStatue()
 
     }
 
@@ -93,6 +97,11 @@ class MainActivity : MyBaseActivity<MainViewModel,ActivityMainBinding>() {
     override fun restoreData() {
 
     }
+
+    override fun initOnClick() {
+
+    }
+
     private fun showInputMessage(){
         FullScreenDialog.show(object : OnBindView<FullScreenDialog>(R.layout.dialog_input_msg){
             override fun onBind(dialog: FullScreenDialog?, v: View?) {

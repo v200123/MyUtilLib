@@ -1,6 +1,6 @@
 package com.last_coffee.myutillib
 
-import com.last_coffee.liubaselib.BaseViewModel
+import com.last_coffee.liubaselib.base.BaseViewModel
 
 /**
  *

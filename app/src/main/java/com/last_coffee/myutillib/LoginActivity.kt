@@ -2,7 +2,6 @@ package com.last_coffee.myutillib
 
 import android.webkit.WebChromeClient
 import androidx.activity.viewModels
-import com.last_coffee.liubaselib.BaseActivity
 import com.last_coffee.myutillib.databinding.ActivityLoginBinding
 
 /**
@@ -43,6 +42,10 @@ class LoginActivity : MyBaseActivity<LoginViewModel,ActivityLoginBinding>() {
 
     override fun restoreData() {
 
+    }
+
+    override fun initOnClick() {
+        TODO("Not yet implemented")
     }
 
     override fun startObserver() {

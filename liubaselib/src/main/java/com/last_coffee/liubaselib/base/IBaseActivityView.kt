@@ -1,4 +1,4 @@
-package com.last_coffee.liubaselib
+package com.last_coffee.liubaselib.base
 
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +28,6 @@ import androidx.viewbinding.ViewBinding
      */
     fun initNeedRefreshData()
     fun restoreData()
-
+   fun initOnClick()
 
 }
