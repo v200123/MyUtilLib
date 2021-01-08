@@ -27,8 +27,6 @@ class MainActivity : MyBaseActivity<MainViewModel,ActivityTestViewBinding>() {
     private val mAdapter by lazy { Adapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
 
     override fun startObserver() {

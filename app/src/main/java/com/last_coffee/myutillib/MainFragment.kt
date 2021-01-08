@@ -1,6 +1,8 @@
 package com.last_coffee.myutillib
 
+import android.util.Log
 import com.last_coffee.myutillib.databinding.ActivityMainBinding
+import java.util.logging.Logger
 
 /**
  *
@@ -16,7 +18,7 @@ class MainFragment : MyBaseFragment<MainViewModel,ActivityMainBinding>() {
     }
 
     override fun initView() {
-
+        Log.d(TAG, "initView: sdfsdfsdfdsfsd")
     }
 
     override fun initData() {
