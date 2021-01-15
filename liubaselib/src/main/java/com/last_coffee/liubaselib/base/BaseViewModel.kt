@@ -81,7 +81,7 @@ abstract class BaseViewModel : ViewModel() {
                 cancel?.invoke(e)
             }
             else -> {
-                mStateLiveData.value = ErrorState("Cookie失效", -100)
+                mStateLiveData.value = ErrorState("未知错误", -100)
             }
         }
     }

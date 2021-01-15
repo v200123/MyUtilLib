@@ -20,7 +20,7 @@ import java.lang.reflect.ParameterizedType
  *
  **/
 abstract class BaseActivity<VM : BaseViewModel, T : ViewBinding> : AppCompatActivity(), IBaseActivityView {
-    lateinit var mDataBinding: T
+    lateinit var mViewBinding: T
     @Volatile
     private var mLoadingCount: Int = 0
     lateinit var mViewModel: VM
@@ -30,11 +30,11 @@ abstract class BaseActivity<VM : BaseViewModel, T : ViewBinding> : AppCompatActi
         val clazz2 = type.actualTypeArguments[1] as Class<T>
         Log.d("Liuchang", "onCreate: clazz2是啥${clazz2.name}")
         val method = clazz2.getMethod("inflate", LayoutInflater::class.java)
-        mDataBinding = method.invoke(null, layoutInflater) as T
+        mViewBinding = method.invoke(null, layoutInflater) as T
         initView()
         initData()
         startObserver()
-        setContentView(mDataBinding.root)
+        setContentView(mViewBinding.root)
         mViewModel.mStateLiveData.observe(this) {
             when (it) {
                 is LoadState -> {
