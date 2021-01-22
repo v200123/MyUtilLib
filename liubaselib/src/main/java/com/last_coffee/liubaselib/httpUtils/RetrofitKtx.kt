@@ -1,6 +1,5 @@
 package com.last_coffee.liubaselib.httpUtils
 
-import com.ayvytr.okhttploginterceptor.LoggingInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
