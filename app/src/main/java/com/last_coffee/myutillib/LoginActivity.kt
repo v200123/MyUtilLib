@@ -24,19 +24,19 @@ class LoginActivity : MyBaseActivity<LoginViewModel,ActivityLoginBinding>() {
     }
 
     override fun initView() {
-        mDataBinding.wvLogin.settings.apply {
+        mViewBinding.wvLogin.settings.apply {
             domStorageEnabled = false
             javaScriptEnabled = true
             javaScriptCanOpenWindowsAutomatically = true
             domStorageEnabled = true
             databaseEnabled = true
         }
-        mDataBinding.wvLogin.apply {
+        mViewBinding.wvLogin.apply {
 
         }
-        mDataBinding.wvLogin.loadUrl("https://id.realme.com/index.html?language=zh-CN&callback=https%3A%2F%2Fid.realme.com%2Fprofile.html")
-        mDataBinding.wvLogin.webChromeClient = WebChromeClient()
-        mDataBinding.wvLogin.webViewClient = MyWebViewClient()
+        mViewBinding.wvLogin.loadUrl("https://id.realme.com/index.html?language=zh-CN&callback=https%3A%2F%2Fid.realme.com%2Fprofile.html")
+        mViewBinding.wvLogin.webChromeClient = WebChromeClient()
+        mViewBinding.wvLogin.webViewClient = MyWebViewClient()
 
     }
 

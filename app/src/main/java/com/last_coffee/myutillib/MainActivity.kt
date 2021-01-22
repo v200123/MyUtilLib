@@ -20,7 +20,7 @@ import com.lc.mybaselibrary.start
 import com.tencent.mmkv.MMKV
 
 
-class MainActivity : MyBaseActivity<MainViewModel,ActivityTestViewBinding>() {
+class MainActivity : MyBaseActivity<MainViewModel,ActivityMainBinding>() {
     private val mMyMViewModel by viewModels<MainViewModel>()
     private val mmkv = MMKV.defaultMMKV()
     private lateinit var mUserData:UserInfoBean
@@ -33,6 +33,7 @@ class MainActivity : MyBaseActivity<MainViewModel,ActivityTestViewBinding>() {
         mViewModel.mStateLiveData.observe(this){
                 if(it is ErrorState)
                 {
+                    hideLoadingDialog()
                     mAdapter.addData("${it.message}，错误代码：${it.errorCode}")
                 }
         }
@@ -53,28 +54,28 @@ class MainActivity : MyBaseActivity<MainViewModel,ActivityTestViewBinding>() {
     }
 
     override fun initView() {
-//        mDataBinding.btnLogin.setOnClickListener {
-//
-//            start<LoginActivity> {  }
-//        }
-//
-//        mDataBinding.text01.setOnClickListener{
-//            mAdapter.data.clear()
-//            mAdapter.notifyDataSetChanged()
-//            mViewModel.getCheckStatue()
-//        }
-//        mDataBinding.btnClear.setOnClickListener {
-//            mmkv!!.clearAll()
-//            showInputMessage()
-//        }
-//
-//        mDataBinding.rvShowMsg.apply {
-//            layoutManager = LinearLayoutManager(this@MainActivity)
-//            adapter = mAdapter
-//        }
-//
-//        mDataBinding.cbMainAutoCheck.isChecked = mmkv!!.getBoolean(ISAUTOCHECKIN,false)
-//        mDataBinding.cbMainAutoCheck.setOnCheckedChangeListener { buttonView, isChecked -> mmkv.putBoolean(ISAUTOCHECKIN,isChecked) }
+        mViewBinding.btnLogin.setOnClickListener {
+            start<LoginActivity> {  }
+        }
+
+        mViewBinding.text01.setOnClickListener{
+            mAdapter.data.clear()
+            mAdapter.notifyDataSetChanged()
+            mViewModel.getCheckStatue()
+
+        }
+        mViewBinding.btnClear.setOnClickListener {
+            mmkv!!.clearAll()
+            showInputMessage()
+        }
+
+        mViewBinding.rvShowMsg.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = mAdapter
+        }
+
+        mViewBinding.cbMainAutoCheck.isChecked = mmkv!!.getBoolean(ISAUTOCHECKIN,false)
+        mViewBinding.cbMainAutoCheck.setOnCheckedChangeListener { buttonView, isChecked -> mmkv.putBoolean(ISAUTOCHECKIN,isChecked) }
 
     }
 
@@ -84,7 +85,7 @@ class MainActivity : MyBaseActivity<MainViewModel,ActivityTestViewBinding>() {
         {
 //            showInputMessage()
         }
-//        if(mDataBinding.cbMainAutoCheck.isChecked)
+//        if(mViewBinding.cbMainAutoCheck.isChecked)
 //            mViewModel.getCheckStatue()
 
     }

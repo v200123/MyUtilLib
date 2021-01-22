@@ -1,16 +1,10 @@
 package com.last_coffee.myutillib
 
 import com.last_coffee.myutillib.baseRequest.awardMissionRequest
-import com.last_coffee.myutillib.bean.FinishMissionBean
-import com.last_coffee.myutillib.bean.MissionList
-import com.last_coffee.myutillib.bean.UserInfoBean
-import com.last_coffee.myutillib.bean.UserTokenBean
-import com.last_coffee.myutillib.bean.getTokenAuthBean
+import com.last_coffee.myutillib.bean.*
+import com.tencent.mmkv.MMKV
 import org.json.JSONObject
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  *
@@ -56,4 +50,13 @@ interface ApiServer {
                                  @Header("Host")host :String= "www.realmebbs.com",@Header("Cookie")cookie:String
     ,@Body request: awardMissionRequest): FinishMissionBean
 
+
+    @GET("api/index/recommend")
+    suspend fun getTopicList(@Query("size")size:String = "20", @Query("page")page:String = "1", @Query("product")product:Boolean = false):getTopicListBean
+
+    @POST("api/thread/{ArticleId}/like")
+    suspend fun likeSomeArticle(
+            @Header("Authorization")auth:String? = MMKV.defaultMMKV()!!.getString(UserToken,""),
+            @Header("User-Agent")agent:String = "Mozilla/5.0 (Linux; Android 5.1.1; SM-G973N Build/PPR1.190810.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.136 Mobile Safari/537.36 realme.android/2.4.2",
+            @Path("ArticleId")ArticleId:String):BaseRepose<String?>
 }

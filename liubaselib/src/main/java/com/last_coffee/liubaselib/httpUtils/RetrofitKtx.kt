@@ -26,7 +26,7 @@ inline fun initOkHttp(tag:String = "com.lc.Log",init:
                     .callTimeout(1, TimeUnit.MINUTES)
                     .readTimeout(1, TimeUnit.MINUTES)
                     .writeTimeout(1, TimeUnit.MINUTES)
-                    .addInterceptor(LoggingInterceptor(showLog = true, isShowAll = true))
+
             return init(okhttpClient).build()
         }
 
