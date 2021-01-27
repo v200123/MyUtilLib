@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.ParameterizedType
+import java.util.logging.Logger
 
 /**
  *
@@ -30,6 +31,9 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment(),I
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        initData()
         val type = javaClass.genericSuperclass as ParameterizedType
         val clazz1 = type.actualTypeArguments[0] as Class<VM>
         mViewModel = ViewModelProvider(this).get(clazz1)
@@ -50,7 +54,6 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment(),I
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        initData()
         initOnClick()
     }
 
