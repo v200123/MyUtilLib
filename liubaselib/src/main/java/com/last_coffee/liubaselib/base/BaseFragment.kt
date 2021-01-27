@@ -31,9 +31,6 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment(),I
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-        initData()
         val type = javaClass.genericSuperclass as ParameterizedType
         val clazz1 = type.actualTypeArguments[0] as Class<VM>
         mViewModel = ViewModelProvider(this).get(clazz1)
@@ -41,6 +38,8 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment(),I
         val clazz2 = type.actualTypeArguments[1] as Class<VB>
         val method = clazz2.getMethod("inflate", LayoutInflater::class.java)
         mViewBinding = method.invoke(null, layoutInflater) as VB
+
+        initData()
     }
 
     override fun onStart() {
