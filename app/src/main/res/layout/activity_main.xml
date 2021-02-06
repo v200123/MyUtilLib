@@ -62,4 +62,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.7" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_main_background_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="打开自动签到"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text01" />
 </androidx.constraintlayout.widget.ConstraintLayout>

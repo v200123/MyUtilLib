@@ -38,14 +38,10 @@ abstract class BaseViewModel : ViewModel() {
             //ViewModel自带的viewModelScope.launch,会在页面销毁的时候自动取消请求,有效封装内存泄露
             mStateLiveData.value = LoadState(type,message)
             runCatching {
-                withContext(Dispatchers.Main)
-                { block() }
+                 block()
             }
                     .onSuccess {
-                        withContext(Dispatchers.Main)
-                        {
                                 mStateLiveData.value = SuccessState
-                        }
                     }
                     .onFailure {
                         getApiException(it, cancel)

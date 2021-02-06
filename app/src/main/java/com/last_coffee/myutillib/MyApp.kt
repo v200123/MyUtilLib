@@ -2,10 +2,10 @@ package com.last_coffee.myutillib
 
 import android.app.Application
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.kongzue.dialogx.DialogX
-import com.lc.liuchanglib.logger.SuperAndroidLogAdapter
-import com.lc.liuchanglib.logger.SuperLogger
 import com.tencent.bugly.Bugly
 import com.tencent.mmkv.MMKV
 
@@ -21,7 +21,7 @@ import com.tencent.mmkv.MMKV
 class MyApp : Application() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        SuperLogger().addLogAdapter(SuperAndroidLogAdapter())
+
         val initialize = MMKV.initialize(this)
         Bugly.init(this, "60089fa7a3", BuildConfig.DEBUG);
         Log.i("LiuChang", "attachBaseContext: $initialize")
@@ -30,6 +30,15 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DialogX.init(this);
+        DialogX.init(this)
+        Handler(mainLooper).post {
+            while (true) {
+                try {
+                    Looper.loop()
+                } catch (e: Throwable) {
+                }
+            }
+        }
+        MyCrashHandler().init()
     }
 }

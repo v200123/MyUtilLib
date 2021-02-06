@@ -1,9 +1,11 @@
 package com.last_coffee.myutillib
 
+import android.util.Log
 import com.last_coffee.liubaselib.httpUtils.initOkHttp
 import com.last_coffee.liubaselib.httpUtils.initRetrofit
 import com.last_coffee.myutillib.myInterceptor.HeaderInterceptor
 import com.last_coffee.myutillib.myInterceptor.ReceivedCookiesInterceptor
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
@@ -21,6 +23,9 @@ fun getRetrofit():ApiServer{
                         .client(initOkHttp {
                             addInterceptor(ReceivedCookiesInterceptor())
                             addInterceptor(HeaderInterceptor())
+                            addInterceptor(HttpLoggingInterceptor().apply {
+                                level = HttpLoggingInterceptor.Level.BODY
+                            })
                         })}.create(ApiServer::class.java)
 }
 

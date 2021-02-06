@@ -17,7 +17,7 @@ import com.orhanobut.logger.PrettyFormatStrategy
 class LogInit {
     companion object{
         fun init(context: Context,tag:String = "com.lc.app",isShow:Boolean = true){
-            com.orhanobut.logger.Logger.addLogAdapter(object : AndroidLogAdapter(){
+         Logger.addLogAdapter(object : AndroidLogAdapter(){
                 override fun isLoggable(priority: Int, tag: String?): Boolean {
                     return isShow
                 }

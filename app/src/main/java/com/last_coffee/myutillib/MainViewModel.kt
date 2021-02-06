@@ -35,9 +35,12 @@ class MainViewModel : MyBaseViewModel<BaseRepose<Any>>() {
         mOtherMessage.value = "获取用户信息"
         launchTask {
             if (mToken == null) {
+                if(mSessionId == null)
+                    throw IllegalArgumentException("请先登录你的账号")
+
                 //获取用户的XSRF_TOKEN
-                getUserInfo(null, mSessionId!!, null)
-                val userToken = getUserToken(mSessionId)
+               getUserInfo(null, mSessionId, null)
+                val userToken = getUserToken(mSessionId?:"")
                 userToken.mData?.let {
                     mUserToken = it.mToken
                     mmkv.putString("UserToken", mUserToken)
@@ -90,7 +93,7 @@ class MainViewModel : MyBaseViewModel<BaseRepose<Any>>() {
     }
 
 
-    private suspend fun getUserInfo(token: String?, session: String, mGGSESSION: String?) =
+    private suspend fun getUserInfo(token: String?, session: String?, mGGSESSION: String?) =
             if (token == null) {
                 getRetrofit().getUserProfile(cookie = "sessionId=${session}")
             } else

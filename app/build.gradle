@@ -12,11 +12,12 @@ android {
         applicationId "com.last_coffee.myutillib"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
         release {
@@ -34,9 +35,21 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("D:\\LiuChangFile\\ChekIn.jks")
+            storePassword "woaini123"
+            keyAlias "check"
+            keyPassword "woaini123"
+        }
+    }
 }
 
 dependencies {
+    implementation project(path: ':LiuChangLib')
+    def work_version = "2.5.0"
+
     implementation 'com.tencent:mmkv-static:1.2.7'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -44,18 +57,18 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 //    implementation 'com.github.v200123.MyUtilLib:liubaselib:1.0.0-alph03'
-    implementation 'com.github.v200123.MyUtilLib:LiuChangLib:1.0.0-alph03'
-    implementation 'com.kongzue.dialogx:DialogX:0.0.24'
+    implementation 'com.kongzue.dialogx:DialogX:0.0.26'
     implementation project(path: ':liubaselib')
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
     testImplementation 'junit:junit:4.+'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.11.0")
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     implementation 'com.squareup.moshi:moshi:1.11.0'
-
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 //    =====================================================================
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

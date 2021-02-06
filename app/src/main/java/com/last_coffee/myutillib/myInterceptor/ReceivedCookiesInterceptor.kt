@@ -18,7 +18,7 @@ import okhttp3.Response
 class ReceivedCookiesInterceptor :Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalResponse = chain.proceed(chain.request())
-        if(originalResponse.headers.size>0)
+        if(originalResponse.headers.size >0)
         {
             var s:String
             val values = originalResponse.headers.values("Set-Cookie")
