@@ -1,3 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lc.liuchanglib">
+
+    <application>
+
+
+        <activity android:name=".wechatUtils.WXPayEntryActivity"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            />
+        <activity-alias
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:targetActivity=".wechatUtils.WXPayEntryActivity"/>
+    </application>
 </manifest>
