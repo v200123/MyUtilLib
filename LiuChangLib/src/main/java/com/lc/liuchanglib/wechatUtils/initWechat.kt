@@ -23,6 +23,8 @@ class initWechat private constructor() {
             }
             wxApi!!.registerApp(APP_ID)
         }
-
+        fun checkIsInstall()=
+                initWechat.wxApi?.isWXAppInstalled ?: throw IllegalArgumentException("请在调用该函数之前，调用initWechat方法")
     }
+
 }

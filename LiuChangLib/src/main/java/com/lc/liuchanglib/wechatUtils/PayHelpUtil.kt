@@ -3,6 +3,7 @@ package com.lc.liuchanglib.wechatUtils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
+import com.lc.liuchanglib.wechatUtils.initWechat.Companion.checkIsInstall
 import com.tencent.mm.opensdk.modelpay.PayReq
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
@@ -21,9 +22,9 @@ class PayHelpUtil private constructor() {
 
     private lateinit var mPayError:(code: String, message: String) -> Unit
     companion object {
-        @SuppressLint("StaticFieldLeak")
-        private var mContext : Context? = null
-        public fun getInstance() = PayHelpUtil()
+
+        private  var sPayHelp:PayHelpUtil? = null
+        public fun getInstance() =sPayHelp?:PayHelpUtil()
     }
 
     public fun payCallback(isSuccess:Boolean,code: String, message: String){
@@ -33,8 +34,8 @@ class PayHelpUtil private constructor() {
             mPayError(code,message)
     }
 
-    public fun startPay(appId: String, partnerId: String, prepayId: String, packageValue: String,
-                               nonceStr: String, timeStamp: String, sign: String, paySuccess: () -> Unit,
+    public fun startPay(context:Context,appId: String, partnerId: String, prepayId: String, packageValue: String,
+                               nonceStr: String, timeStamp: String, sign: String,unInstallWechat:()->Unit ={Toast.makeText(context,"没有安装微信",Toast.LENGTH_SHORT).show()},paySuccess: () -> Unit,
                                pauError: (code: String, message: String) -> Unit) {
         if(checkIsInstall())
         {
@@ -50,12 +51,11 @@ class PayHelpUtil private constructor() {
             payReq.nonceStr = nonceStr
             initWechat.wxApi?.sendReq(payReq) ?: throw IllegalArgumentException("请在调用该函数之前，调用initWechat方法")}
         else{
-            Toast.makeText(mContext,"没有安装微信",Toast.LENGTH_SHORT).show()
+            unInstallWechat()
         }
     }
 
-    private fun checkIsInstall()=
-        initWechat.wxApi?.isWXAppInstalled ?: throw IllegalArgumentException("请在调用该函数之前，调用initWechat方法")
+
 
 
 }

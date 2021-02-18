@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wechat_success">授权成功</string>
+    <string name="wechat_user_cancel">用户取消授权</string>
+    <string name="wechat_error">用户拒绝授权</string>
+    <string name="wechat_unknown">未知错误</string>
+</resources>

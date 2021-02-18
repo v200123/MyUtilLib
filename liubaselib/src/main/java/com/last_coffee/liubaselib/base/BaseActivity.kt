@@ -23,12 +23,15 @@ import java.lang.reflect.ParameterizedType
  **/
 abstract class BaseActivity<VM : BaseViewModel, T : ViewBinding> : AppCompatActivity(), IBaseActivityView {
     lateinit var mViewBinding: T
+    //用于显示loading的计数
     @Volatile
     private var mLoadingCount: Int = 0
     lateinit var mViewModel: VM
+
     val mContext:Context by lazy { this }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val type = javaClass.genericSuperclass as ParameterizedType
 
         val clazz1 = type.actualTypeArguments[0] as Class<VM>
