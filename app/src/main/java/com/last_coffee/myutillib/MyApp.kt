@@ -6,6 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.kongzue.dialogx.DialogX
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
 import com.tencent.bugly.Bugly
 import com.tencent.mmkv.MMKV
 
@@ -30,6 +32,7 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Logger.addLogAdapter(AndroidLogAdapter())
         DialogX.init(this)
         Handler(mainLooper).post {
             while (true) {

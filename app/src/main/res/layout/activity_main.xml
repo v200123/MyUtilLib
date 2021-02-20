@@ -63,6 +63,13 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.7" />
 
+    <com.last_coffee.myutillib.testTextLine
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toTopOf="@+id/text01"
+        app:layout_constraintTop_toBottomOf="@+id/rv_show_msg">
+
+    </com.last_coffee.myutillib.testTextLine>
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/cb_main_background_sign"
         android:layout_width="wrap_content"

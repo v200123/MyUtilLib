@@ -42,7 +42,6 @@ class WXEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
             BaseResp.ErrCode.ERR_USER_CANCEL ->getString(R.string.wechat_user_cancel)
             BaseResp.ErrCode.ERR_AUTH_DENIED ->getString(R.string.wechat_error)
             BaseResp.ErrCode.ERR_UNSUPPORT ->getString(R.string.wechat_unknown)
-
         }
 
         if(baseResp.type == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX)
