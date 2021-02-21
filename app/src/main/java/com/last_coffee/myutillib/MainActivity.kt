@@ -108,14 +108,15 @@ class MainActivity : MyBaseActivity<MainViewModel, ActivityMainBinding>() {
 
         mViewBinding.cbMainAutoCheck.isChecked = mmkv!!.getBoolean(ISAUTOCHECKIN, false)
         mViewBinding.cbMainAutoCheck.setOnCheckedChangeListener { buttonView, isChecked -> mmkv.putBoolean(ISAUTOCHECKIN, isChecked) }
-
+        mViewBinding.fold.setOnClickListener {
+            mViewBinding.fold.openAnim()
+        }
     }
 
     override fun initData() {
         mViewModel = mMyMViewModel
-        if (!mmkv!!.contains("Token")) {
-//            showInputMessage()
-        }
+        mViewBinding.fold.setContent("sdfsdfsdfsdfsdfxcvxcvxcvsdfsdf\nsdfsdfsdfsdfwerxfdvdsfgdgf\ndfsewertrtcvcvbcvbcvbwq")
+
 //        if(mViewBinding.cbMainAutoCheck.isChecked)
 //            mViewModel.getCheckStatue()
 
