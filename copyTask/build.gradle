@@ -1,0 +1,22 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+dependencies {
+    //gradle sdk
+    implementation gradleApi()
+    //groovy sdk
+    implementation localGroovy()
+    // Android DSL
+    implementation 'com.android.tools.build:gradle:4.2.0-beta05'
+}
+//设置插件 group 和版本号 在项目中使用的时候会用到
+group='com.maoasm.plugin'
+version='1.0.39'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //本地的Maven地址设置
+            repository(url: ('file:../asm_test_repo'))
+        }
+    }
+}

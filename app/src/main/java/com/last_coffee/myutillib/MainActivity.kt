@@ -27,6 +27,7 @@ import com.lc.liuchanglib.ext.emptyDoSomething
 import com.lc.liuchanglib.init.LogInit
 import com.lc.mybaselibrary.start
 import com.tencent.mmkv.MMKV
+import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
 
 
@@ -34,7 +35,7 @@ class MainActivity : MyBaseActivity<MainViewModel, ActivityMainBinding>() {
     private val mMyMViewModel by viewModels<MainViewModel>()
     private val mmkv = MMKV.defaultMMKV()
     private lateinit var mUserData: UserInfoBean
-    private val mAdapter by lazy { Adapter() }
+    private val mAdapter by inject<Adapter>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -159,12 +160,6 @@ class MainActivity : MyBaseActivity<MainViewModel, ActivityMainBinding>() {
         mViewBinding.rvShowMsg.smoothScrollToPosition(mAdapter.data.size)
     }
 
-    inner class Adapter : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_main_text) {
-        override fun convert(holder: BaseViewHolder, item: String) {
-            holder.setText(R.id.tv_item_msg, item)
-        }
-
-    }
 
     private fun initChannerl() {
         val notificationManage: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

@@ -2,19 +2,19 @@ package com.lc.liuchanglib.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import com.lc.liuchanglib.shapeView.ShapeTextView
 
 /**
  *
  * @PackAge：com.lc.liuchanglib.view
- * @创建人：lc
+ * @创建人：Lc
  * @Desc：
- * @Time: 十二月
+ * @Time: 二月
  *
  **/
-class LcTopBar @JvmOverloads constructor(
+class DropDownTextView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+) : ShapeTextView(context, attrs, defStyleAttr) {
 
 
 
