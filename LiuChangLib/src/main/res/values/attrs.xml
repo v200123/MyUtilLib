@@ -247,4 +247,10 @@
         <attr name="shadowCornersBottomLeftRadius" />
         <attr name="shadowCornersBottomRightRadius" />
     </declare-styleable>
+
+    <declare-styleable name="DropDownTextView">
+        <attr name="image_width" format="dimension"/>
+        <attr name="image_height" format="dimension"/>
+        <attr name="content_text" format="string|reference"/>
+    </declare-styleable>
 </resources>

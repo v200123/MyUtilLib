@@ -2,7 +2,7 @@
 buildscript {
     ext.kotlin_version = "1.4.30"
     repositories {
-        maven { url 'file:D:\\Code\\AndroidApplication\\MyUtilLib\\asm_test_repo' }
+        maven { url 'http://106.52.138.72:8081/repository/maven-public/' }
 
         google()
         jcenter()

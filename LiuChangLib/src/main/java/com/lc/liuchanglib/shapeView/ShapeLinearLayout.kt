@@ -13,7 +13,7 @@ import com.lc.mybaselibrary.ShadowHelper
  *@describe:
  *@Auth: 29579
  **/
-class ShapeLinearLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
+open class ShapeLinearLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
     var shapeBuilder: ShapeBuilder? = null
     var shadowHelper: ShadowHelper? = null
 

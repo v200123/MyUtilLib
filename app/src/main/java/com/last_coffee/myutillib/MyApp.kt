@@ -48,14 +48,14 @@ class MyApp : Application() {
         super.onCreate()
         Logger.addLogAdapter(AndroidLogAdapter())
         DialogX.init(this)
-        Handler(mainLooper).post {
-            while (true) {
-                try {
-                    Looper.loop()
-                } catch (e: Throwable) {
-                }
-            }
-        }
+//        Handler(mainLooper).post {
+//            while (true) {
+//                try {
+//                    Looper.loop()
+//                } catch (e: Throwable) {
+//                }
+//            }
+//        }
         MyCrashHandler().init()
     }
 }

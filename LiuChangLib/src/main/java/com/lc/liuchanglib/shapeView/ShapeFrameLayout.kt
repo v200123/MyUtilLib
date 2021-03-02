@@ -16,7 +16,7 @@ import com.lc.mybaselibrary.ShadowHelper
  * @Time: 十二月
  *
  **/
-class ShapeFrameLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+open class ShapeFrameLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     var shapeBuilder: ShapeBuilder? = null
     var shadowHelper: ShadowHelper? = null
 

@@ -16,7 +16,9 @@ uploadArchives {
     repositories {
         mavenDeployer {
             //本地的Maven地址设置
-            repository(url: ('file:../asm_test_repo'))
+            repository(url: ('http://106.52.138.72:8081/repository/my_repo/')){
+                authentication(userName: "admin", password: "woaini123")
+            }
         }
     }
 }

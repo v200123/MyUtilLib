@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.*
 import androidx.work.impl.constraints.controllers.BatteryNotLowController
@@ -25,6 +26,7 @@ import com.last_coffee.myutillib.bean.UserInfoBean
 import com.last_coffee.myutillib.databinding.ActivityMainBinding
 import com.lc.liuchanglib.ext.emptyDoSomething
 import com.lc.liuchanglib.init.LogInit
+import com.lc.mybaselibrary.ext.getResDrawable
 import com.lc.mybaselibrary.start
 import com.tencent.mmkv.MMKV
 import org.koin.android.ext.android.inject
@@ -75,29 +77,18 @@ class MainActivity : MyBaseActivity<MainViewModel, ActivityMainBinding>() {
             mViewModel.getCheckStatue()
         }
 
-        mViewBinding.cbMainBackgroundSign.setOnCheckedChangeListener { buttonView, isChecked ->
-            val instance = WorkManager.getInstance(mContext)
-            if(isChecked)
-            {
-                //用于增加一些额外的触发条件
-                val workManagerConstraints = Constraints.Builder()
-                        .setRequiresBatteryNotLow(false)
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .build()
-                val from = OneTimeWorkRequest.from(signWorker::class.java)
-                val build = PeriodicWorkRequest.Builder(signWorker::class.java, 20, TimeUnit.SECONDS)
-                        .addTag("sign")
-                        .setConstraints(workManagerConstraints)
-                        .build()
-                instance.enqueue(build)
+        mViewBinding.drop.apply {
+            mRightDrawable = mContext.getResDrawable(R.drawable.process)!!.apply {setBounds(0,0,100,100)  }
+            setContextText("这是一次尝试")
+        }
+        mViewBinding.drop.setOnClickListener {
+            mViewBinding.drop.filterShow(arrayListOf("aaa","bbb","ccc"),{it},null){ i: Int, s: String ->
+                    Toast.makeText(mContext,"当前选择的是$s",Toast.LENGTH_SHORT).show()
             }
-
-
         }
 
 
         mViewBinding.btnClear.setOnClickListener {
-            throw IllegalArgumentException("哈哈哈哈哈")
             mmkv!!.clearAll()
             showInputMessage()
         }
@@ -190,14 +181,18 @@ class MainActivity : MyBaseActivity<MainViewModel, ActivityMainBinding>() {
       override fun doWork(): Result {
                       LogInit.showDebug("当前的后台任务得到了执行了")
             val notificationManage: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val notification = Notification.Builder(mContext, "sign")
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                    .setContentTitle("一条新通知")
-                    .setContentText("这是一条测试消息")
-                    .setAutoCancel(true)
-                    .build()
-            notificationManage.notify(1, notification)
+            val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Notification.Builder(mContext, "sign")
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                        .setContentTitle("一条新通知")
+                        .setContentText("这是一条测试消息")
+                        .setAutoCancel(true)
+                        .build()
+            } else {
+                TODO("VERSION.SDK_INT < O")
+            }
+          notificationManage.notify(1, notification)
 
             mMyMViewModel.getCheckStatue()
             return Result.success()
