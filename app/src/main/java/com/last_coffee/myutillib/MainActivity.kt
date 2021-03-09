@@ -1,5 +1,6 @@
 package com.last_coffee.myutillib
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
@@ -14,6 +15,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.*
 import androidx.work.impl.constraints.controllers.BatteryNotLowController
@@ -24,7 +26,7 @@ import com.kongzue.dialogx.interfaces.OnBindView
 import com.last_coffee.liubaselib.httpUtils.ErrorState
 import com.last_coffee.myutillib.bean.UserInfoBean
 import com.last_coffee.myutillib.databinding.ActivityMainBinding
-import com.lc.liuchanglib.ext.emptyDoSomething
+import com.lc.liuchanglib.ext.*
 import com.lc.liuchanglib.init.LogInit
 import com.lc.mybaselibrary.ext.getResDrawable
 import com.lc.mybaselibrary.start
@@ -152,27 +154,20 @@ class MainActivity : MyBaseActivity<MainViewModel, ActivityMainBinding>() {
     }
 
 
+    @SuppressLint("NewApi")
     private fun initChannerl() {
-        val notificationManage: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//        val notificationManage: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notification = Notification.Builder(this, "sign01")
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+            .setContentTitle("一条新通知")
+            .setContentText("这是一条测试消息")
+            .setAutoCancel(true)
+            .build()
+        notificationCreate(mContext, listOf(NoticaionInfo("sign01", "签到通知aaa",
+            NotificationManager.IMPORTANCE_HIGH))).showNotification(1,notification)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "sign"
-            val groupId = "1"
-            val channelName = "签到通知"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            notificationManage.createNotificationChannelGroup(NotificationChannelGroup(groupId, "签到"))
-            val notificationChannel = NotificationChannel(channelId, channelName, importance)
-            notificationChannel.description = "用于签到后成功与否的通知"
-            notificationManage.createNotificationChannel(notificationChannel)
-            val notification = Notification.Builder(this, channelId)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                    .setContentTitle("一条新通知")
-                    .setContentText("这是一条测试消息")
-                    .setAutoCancel(true)
-                    .build()
-            notificationManage.notify(1, notification)
-        }
+
     }
 
 

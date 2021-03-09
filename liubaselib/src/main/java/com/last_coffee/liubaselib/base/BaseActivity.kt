@@ -43,6 +43,7 @@ abstract class BaseActivity<VM : BaseViewModel, T : ViewBinding> : AppCompatActi
         mViewBinding = method.invoke(null, layoutInflater) as T
         initView()
         initData()
+        initOnClick()
         startObserver()
         setContentView(mViewBinding.root)
         mViewModel.mStateLiveData.observe(this) {

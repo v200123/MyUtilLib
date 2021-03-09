@@ -47,7 +47,7 @@ class WeChatOtherHelp private constructor() {
      * -[发送到收藏][SendMessageToWX.Req.WXSceneFavorite]
      *
      */
-    public fun startDoSomething(context: Context, block: WXMediaMessage.() -> Unit, mediaObject: WXMediaMessage.IMediaObject?, target: Int, unInstallWechat: () -> Unit = { Toast.makeText(context, "没有安装微信", Toast.LENGTH_SHORT).show() }, success: Success, error: Error) {
+    public fun startDoShare( block: WXMediaMessage.() -> Unit, mediaObject: WXMediaMessage.IMediaObject?, target: Int, unInstallWechat: () -> Unit = {  }, success: Success, error: Error) {
         if (initWechat.checkIsInstall()) {
             mDoSuccess = success
             mDoError = error
@@ -62,6 +62,14 @@ class WeChatOtherHelp private constructor() {
             unInstallWechat()
         }
 
+    }
+    public fun startDoAuth(unInstallWechat: () -> Unit = {  }, success: Success, error: Error){
+        if (initWechat.checkIsInstall()) {
+            mDoSuccess = success
+            mDoError = error
+        }else {
+            unInstallWechat()
+        }
     }
 
 
