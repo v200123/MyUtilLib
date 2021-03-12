@@ -37,9 +37,8 @@ class WXPayEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
         if(baseResp.type == ConstantsAPI.COMMAND_PAY_BY_WX)
         {
             PayHelpUtil.getInstance().payCallback(baseResp.errCode == 0,baseResp.errCode.toString(),baseResp.errStr)
-            finish()
         }
-
+        finish()
     }
 
 

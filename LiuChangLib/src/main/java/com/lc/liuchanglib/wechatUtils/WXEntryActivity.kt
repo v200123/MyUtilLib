@@ -47,15 +47,13 @@ class WXEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
         if(baseResp.type == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX)
         {
             WeChatOtherHelp.getInstance().doOtherCallBack(baseResp.errCode == 0,baseResp.errCode.toString(),msg)
-            finish()
         }
         if(baseResp.type == ConstantsAPI.COMMAND_SENDAUTH)
         {
             val resp = baseResp as SendAuth.Resp
             WeChatOtherHelp.getInstance().doOtherCallBack(resp.errCode == 0,resp.code,msg)
-            finish()
-
         }
+        finish()
 
 
     }
