@@ -19,8 +19,10 @@ import java.util.logging.Logger
  * @Time: 一月
  *
  **/
-abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment(),IBaseActivityView {
-   lateinit var  mContext : Context
+abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment(), IBaseActivityView {
+    private var isFragmentInit = false
+
+    lateinit var mContext: Context
     lateinit var mViewModel: VM
     lateinit var mViewBinding: VB
 
@@ -38,8 +40,11 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment(),I
         val clazz2 = type.actualTypeArguments[1] as Class<VB>
         val method = clazz2.getMethod("inflate", LayoutInflater::class.java)
         mViewBinding = method.invoke(null, layoutInflater) as VB
-
-        initData()
+        if (!isFragmentInit) {
+            initData()
+            isFragmentInit = true
+        }
+        initNeedRefreshData()
     }
 
     override fun onStart() {
@@ -47,15 +52,19 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment(),I
         startObserver()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return mViewBinding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initOnClick()
     }
-
     abstract fun startObserver()
     abstract fun getLoadingDialogText(): String
     abstract fun showLoadingDialog(message: String)
