@@ -56,5 +56,10 @@
       <option name="name" value="maven2" />
       <option name="url" value="file:/$PROJECT_DIR$/../../Code/AndroidApplication/MyUtilLib/asm_test_repo" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="file:/$PROJECT_DIR$/asm_test_repo" />
+    </remote-repository>
   </component>
 </project>

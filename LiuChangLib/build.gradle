@@ -69,7 +69,8 @@ afterEvaluate {
         repositories {
             //这个是发布到线上仓库的功能支持
             maven {
-                url = "http://www.lastcoffee.top:8081/repository/my_repo/"
+                url = "http://www.lastcoffee.top:8081/repository/myRep/"
+
 
                 credentials {
                     username = "admin"

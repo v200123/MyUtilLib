@@ -32,20 +32,24 @@ typealias Cancel = (e: Exception) -> Unit
 abstract class BaseViewModel : ViewModel() {
 
     val mStateLiveData = MutableLiveData<StateActionEvent>()
-    fun launchTask(type: Int = 0, message:String = "请稍后", cancel: Cancel? = { mStateLiveData.postValue(ErrorState("请求取消")) },
-                   block: LaunchBlock) {
+    fun launchTask(
+        type: Int = 0,
+        message: String = "请稍后",
+        cancel: Cancel? = { mStateLiveData.postValue(ErrorState("请求取消")) },
+        block: LaunchBlock
+    ) {
         viewModelScope.launch {
             //ViewModel自带的viewModelScope.launch,会在页面销毁的时候自动取消请求,有效封装内存泄露
-            mStateLiveData.value = LoadState(type,message)
+            mStateLiveData.value = LoadState(type, message)
             runCatching {
-                 block()
+                block()
             }
-                    .onSuccess {
-                                mStateLiveData.value = SuccessState
-                    }
-                    .onFailure {
-                        getApiException(it, cancel)
-                    }
+                .onSuccess {
+                    mStateLiveData.value = SuccessState
+                }
+                .onFailure {
+                    getApiException(it, cancel)
+                }
         }
     }
 
