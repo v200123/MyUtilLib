@@ -20,6 +20,7 @@ import java.net.UnknownHostException
 
 typealias LaunchBlock = suspend CoroutineScope.() -> Unit
 typealias Cancel = (e: Exception) -> Unit
+typealias ErrorEx = (e: Throwable, cancel: Cancel?) ->Unit
 
 /**
  *
@@ -36,6 +37,7 @@ abstract class BaseViewModel : ViewModel() {
         type: Int = 0,
         message: String = "请稍后",
         cancel: Cancel? = { mStateLiveData.postValue(ErrorState("请求取消")) },
+        errorException:ErrorEx = { throwable: Throwable, function: Cancel? -> getApiException(throwable,function)},
         block: LaunchBlock
     ) {
         viewModelScope.launch {
@@ -48,7 +50,7 @@ abstract class BaseViewModel : ViewModel() {
                     mStateLiveData.value = SuccessState
                 }
                 .onFailure {
-                    getApiException(it, cancel)
+                    errorException(it, cancel)
                 }
         }
     }

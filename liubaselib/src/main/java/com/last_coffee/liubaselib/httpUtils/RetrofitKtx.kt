@@ -7,6 +7,7 @@ import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLSession
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.X509TrustManager
+import kotlin.jvm.Throws
 
 /**
  *
@@ -21,7 +22,7 @@ fun initRetrofit(init: (Retrofit.Builder).() -> Retrofit.Builder): Retrofit {
 
     return init(Retrofit.Builder()).build()
 }
-
+@Throws (IllegalArgumentException::class)
 inline fun initOkHttp(tag: String = "com.lc.Log", needMoreSafe: Boolean = false, crossinline hostNameVerifier: (hostname: String, session: SSLSession) -> Boolean = { _,_ -> true }, sslFactory: SSLSocketFactory? = null, trustManager: X509TrustManager? = null, init:
 (OkHttpClient.Builder.() -> OkHttpClient.Builder)): OkHttpClient {
     val okhttpClient = OkHttpClient.Builder().callTimeout(10, TimeUnit.SECONDS)

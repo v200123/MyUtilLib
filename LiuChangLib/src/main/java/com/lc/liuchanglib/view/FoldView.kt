@@ -43,7 +43,6 @@ class FoldView @JvmOverloads constructor(
         mContentText.setTextColor(contentTextColor)
         //获取当前的列数 需要在绘制完成后才能获取
         post {
-
             Log.d("LiuChang", "当前的列数为:$lineCount 单列的高度为:${mContentText.lineHeight}；总的高度为：${mContentText.height}")
             if (lineCount < mMaxLine) {
                 isOpen = true

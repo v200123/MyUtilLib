@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.31"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.32"
     api 'androidx.core:core-ktx:1.3.2'
     api 'androidx.appcompat:appcompat:1.2.0'
     api 'com.google.android.material:material:1.3.0'
@@ -55,14 +55,28 @@ dependencies {
     api 'com.squareup.retrofit2:retrofit:2.9.0'
 }
 task generateSourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
+    if (project.hasProperty('android')) {
+        from android.sourceSets.main.java.srcDirs
+    } else {
+        from sourceSets.main.allSource
+    }
     classifier 'sources'
 }
+
 afterEvaluate {
     publishing {
         publications {
             maven(MavenPublication) {
-                from components.debug
+                if (project.plugins.hasPlugin('com.android.library')) {
+                    if (components.findByName('release') != null)
+                        from components.release
+                    else {
+                        artifact("$buildDir/outputs/aar/${project.name}-release.aar")
+                        with(pomDependencies)
+                    }
+                } else if (project.plugins.hasPlugin('java-library') || project.plugins.hasPlugin('java')) {
+                    from components.java
+                }
                 groupId = 'top.lastcoffee'
                 artifactId = 'baseLib'
                 version = this.ext.myVersion
@@ -81,6 +95,20 @@ afterEvaluate {
             }
         }
 
+    }
+
+}
+ext.pomDependencies = {
+    pom.withXml {
+        def dependenciesNode = asNode().appendNode('dependencies')
+        configurations.implementation.allDependencies.each {
+            if (it.group != null && it.name != null && it.version != null) {
+                def dependencyNode = dependenciesNode.appendNode('dependency')
+                dependencyNode.appendNode('groupId', it.group)
+                dependencyNode.appendNode('artifactId', it.name)
+                dependencyNode.appendNode('version', it.version)
+            }
+        }
     }
 }
 

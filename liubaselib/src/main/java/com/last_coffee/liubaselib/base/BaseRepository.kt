@@ -10,7 +10,4 @@ package com.last_coffee.liubaselib.base
  **/
 open class BaseRepository {
 
-
-
-
 }
